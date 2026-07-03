@@ -11,54 +11,87 @@
 <body>
   <div class="app">
     <header class="header">
-      <p class="eyebrow">Daily Strength</p>
-      <h1>Strength Log</h1>
+      <div>
+        <p class="eyebrow">Daily Strength</p>
+        <h1>Strength Log</h1>
+      </div>
+      <button id="exportBtn" class="icon-btn" title="Export data">Export</button>
     </header>
 
     <main>
       <section id="home" class="screen active">
-        <div class="hero-card">
-          <p class="muted">Today</p>
-          <div class="main-number">0</div>
+        <section class="hero-card">
+          <p id="todayDate" class="muted">Today</p>
+          <div class="main-number" id="todayTotal">0</div>
           <p class="label">squats completed</p>
-          <div class="progress-track">
-            <div class="progress-fill" style="width:0%"></div>
-          </div>
-          <p class="muted">Goal: 0 / 50</p>
-        </div>
+          <div class="progress-track"><div id="dailyProgress" class="progress-fill"></div></div>
+          <p id="dailyGoalText" class="muted">Goal: 0 / 50</p>
+        </section>
 
-        <div class="card">
+        <section class="card">
           <h2>Add squats</h2>
-          <div class="quick-grid">
-            <button>+5</button>
-            <button>+10</button>
-            <button>+15</button>
-            <button>+20</button>
-            <button>+25</button>
-            <button>+50</button>
+          <div class="quick-grid" id="quickGrid"></div>
+          <div class="action-grid">
+            <button id="customBtn" class="secondary">Custom set</button>
+            <button id="repeatBtn" class="secondary">Repeat last</button>
+            <button id="undoBtn" class="ghost">Undo</button>
+            <button id="clearTodayBtn" class="ghost danger">Clear today</button>
           </div>
-        </div>
+        </section>
+
+        <section class="card">
+          <div class="section-head">
+            <h2>Other strength</h2>
+            <div class="toggle-row">
+              <button id="otherYes" class="pill">Yes</button>
+              <button id="otherNo" class="pill">No</button>
+            </div>
+          </div>
+          <div id="exercisePanel" class="hidden">
+            <div id="exerciseChips" class="chip-grid"></div>
+            <textarea id="exerciseNotes" rows="3" placeholder="Notes: sets, reps, time, weight, etc."></textarea>
+          </div>
+          <p id="exerciseSummary" class="muted small"></p>
+        </section>
       </section>
 
       <section id="progress" class="screen">
-        <div class="card">
-          <h2>Progress</h2>
-          <p class="muted">Weekly and monthly trends will go here.</p>
-        </div>
+        <section class="stats-grid">
+          <div class="stat card"><span id="streak">0</span><small>day streak</small></div>
+          <div class="stat card"><span id="weekTotal">0</span><small>last 7 days</small></div>
+          <div class="stat card"><span id="monthTotal">0</span><small>last 30 days</small></div>
+          <div class="stat card"><span id="bestDay">0</span><small>best day</small></div>
+        </section>
+        <section class="card">
+          <h2>Last 14 days</h2>
+          <div id="chart" class="chart"></div>
+        </section>
+        <section class="card">
+          <h2>Consistency</h2>
+          <p id="consistencyText" class="big-line">0 workout days in the last 7 days</p>
+        </section>
       </section>
 
       <section id="history" class="screen">
-        <div class="card">
+        <section class="card">
           <h2>History</h2>
-          <p class="muted">Logged days will appear here.</p>
-        </div>
+          <div id="historyList"></div>
+        </section>
       </section>
 
       <section id="goals" class="screen">
-        <div class="card">
+        <section class="card">
           <h2>Goals</h2>
-          <p class="muted">Daily, weekly, and monthly goals will go here.</p>
-        </div>
+          <label>Daily squat goal<input id="dailyGoal" type="number" min="1" /></label>
+          <label>Weekly squat goal<input id="weeklyGoal" type="number" min="1" /></label>
+          <label>Monthly squat goal<input id="monthlyGoal" type="number" min="1" /></label>
+          <button id="saveGoals" class="primary full">Save goals</button>
+        </section>
+        <section class="card">
+          <h2>Data</h2>
+          <p class="muted small">Your data is saved locally on this device/browser.</p>
+          <button id="resetBtn" class="ghost danger full">Reset all data</button>
+        </section>
       </section>
     </main>
 
@@ -69,6 +102,25 @@
       <button class="nav-btn" data-screen="goals">Goals</button>
     </nav>
   </div>
+
+  <dialog id="customDialog">
+    <h2>Add custom set</h2>
+    <select id="customSelect"></select>
+    <div class="dialog-actions">
+      <button id="cancelCustom" class="ghost">Cancel</button>
+      <button id="addCustom" class="primary">Add</button>
+    </div>
+  </dialog>
+
+  <dialog id="editDialog">
+    <h2 id="editTitle">Edit day</h2>
+    <label>Squat total<input id="editSquats" type="number" min="0" /></label>
+    <label>Other strength notes<textarea id="editNotes" rows="3"></textarea></label>
+    <div class="dialog-actions">
+      <button id="cancelEdit" class="ghost">Cancel</button>
+      <button id="saveEdit" class="primary">Save</button>
+    </div>
+  </dialog>
 
   <script src="app.js"></script>
 </body>
